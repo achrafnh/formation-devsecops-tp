@@ -38,9 +38,10 @@ pipeline {
     
     }
 }
+	
      }
-	  }
-	stage('Docker Build and Push') {
+
+	  	stage('Docker Build and Push') {
   	steps {
     	withCredentials([string(credentialsId: 'docker-hub-password-adam', variable: 'DOCKER_HUB_PASSWORD')]) {
       	sh 'sudo docker login -u adamantium69 -p $DOCKER_HUB_PASSWORD'
@@ -53,4 +54,6 @@ pipeline {
 	}
 
 	}
+	  }
+
 
