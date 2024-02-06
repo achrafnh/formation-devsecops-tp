@@ -40,4 +40,17 @@ pipeline {
 }
      }
 	  }
+	stage('Docker Build and Push') {
+  	steps {
+    	withCredentials([string(credentialsId: 'docker-hub-password-adam', variable: 'DOCKER_HUB_PASSWORD')]) {
+      	sh 'sudo docker login -u adamantium69 -p $DOCKER_HUB_PASSWORD'
+      	sh 'printenv'
+      	sh 'sudo docker build -t adamantium69/devops-app:""$GIT_COMMIT"" .'
+      	sh 'sudo docker push adamantium69/devops-app:""$GIT_COMMIT""'
+    	}
+
+  	}
 	}
+
+	}
+
