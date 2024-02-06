@@ -2,23 +2,17 @@ package com.devsecops;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class NumericController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	private static final String baseURL = "http://node-service:5000/plusone";
+	private static final String baseURL = "http://localhost:5000/plusone";
 	
 	RestTemplate restTemplate = new RestTemplate();
 	
@@ -50,5 +44,4 @@ public class NumericController {
 			return Integer.parseInt(response);
 		}
 	}
-
 }
