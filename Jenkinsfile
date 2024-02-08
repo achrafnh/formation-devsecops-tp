@@ -73,6 +73,21 @@ pipeline {
    			 }
    	 }
  }
+	  stage('SonarQube - SAST') {
+       	steps {
+   		catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+     	withSonarQubeEnv('SonarQubeConfig') {
+ 
+ 
+        	sh "mvn sonar:sonar \
+  -Dsonar.projectKey=projet_adam \
+  -Dsonar.projectName=projet_adam \
+  -Dsonar.host.url=http://mytpm.eastus.cloudapp.azure.com:9999"
+     	}
+   		}
+   	}
+
+	}
 
 
 
