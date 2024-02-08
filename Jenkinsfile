@@ -61,6 +61,30 @@ pipeline {
   	}
 
 	}
+	  stage('OWASP ZAP - DAST') {
+       steps {
+         withKubeConfig([credentialsId: 'kubeconfig']) {
+           sh 'sudo bash zap.sh'
+         }
+       }
+     }
+
+	   stage('Integration Tests - DEV') {
+           steps {
+             script {
+               try {
+                 withKubeConfig([credentialsId: 'kubeconfig']) {
+                   sh "bash integration-test.sh"
+                 }
+               } catch (e) {
+                 withKubeConfig([credentialsId: 'kubeconfig']) {
+                   sh "kubectl -n default rollout undo deploy ${deploymentName}"
+                 }
+                 throw e
+               }
+             }
+           }
+         }
 	  stage('Vulnerability Scan - Docker') {
    steps {
     	catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
