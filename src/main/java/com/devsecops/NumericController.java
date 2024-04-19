@@ -19,15 +19,15 @@ public class NumericController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	private static final String baseURL = "http://node-service:5000/plusone";
-	
+
 	RestTemplate restTemplate = new RestTemplate();
-	
+
 	@RestController
 	public class compare {
 
 		@GetMapping("/")
 		public String welcome() {
-			return "Kubernetes DevSecOps";
+			return "Kubernetes DevSecOps test2";
 		}
 
 		@GetMapping("/compare/{value}")
