@@ -48,7 +48,7 @@
 			
 		</plugins>
 	</build>
-
+<plugins>
 <!--                   Jacoco Plugin                   -->
 <plugin>
 <groupId>org.jacoco</groupId>
@@ -90,5 +90,6 @@
 </outputFormats>
 </configuration>
 </plugin>
+</plugins>
 	
 </project>
