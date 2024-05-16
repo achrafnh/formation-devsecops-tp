@@ -40,7 +40,7 @@ pipeline {
  
      stage('SonarQube - SAST') {
        steps {
-         withSonarQubeEnv('SonarQubeConfig') {
+         withSonarQubeEnv('MySonar') {
            sh "mvn sonar:sonar \
   -Dsonar.projectKey=App_Java \
   -Dsonar.host.url=http://devsecopsm2i.eastus.cloudapp.azure.com:9999 \
