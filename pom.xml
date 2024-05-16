@@ -46,9 +46,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			
-		</plugins>
-	</build>
-<plugins>
+		
 <!--                   Jacoco Plugin                   -->
 <plugin>
 <groupId>org.jacoco</groupId>
@@ -91,5 +89,7 @@
 </configuration>
 </plugin>
 </plugins>
+	</build>
+
 	
 </project>
