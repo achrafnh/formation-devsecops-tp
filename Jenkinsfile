@@ -37,7 +37,19 @@ pipeline {
          }
        }
     }
+//--------------------------
+ 
+     stage('SonarQube - SAST') {
+       steps {
+         withSonarQubeEnv('SonarQubeConfig') {
+           sh "mvn sonar:sonar \
+  -Dsonar.projectKey=myapp \
+  -Dsonar.host.url=http://newdevsecops1.eastus.cloudapp.azure.com:9999 \
+  -Dsonar.login=834557ed8ff507e9a1e56e392793b95a63d03a23"
+         }
 
+       }
+     }
     //--------------------------
     stage('Docker Build and Push') {
       steps {
