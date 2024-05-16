@@ -35,6 +35,25 @@ pipeline {
          }
        }
     }
+
+//--------------------------
+ 
+     stage('SonarQube - SAST') {
+       steps {
+         withSonarQubeEnv('SonarQubeConfig') {
+           sh "mvn sonar:sonar \
+  -Dsonar.projectKey=App_Java \
+  -Dsonar.host.url=http://devsecopsm2i.eastus.cloudapp.azure.com:9999 \
+  -Dsonar.login=8d7823763ffa253494c99930a0b9988581cf8d53"
+         }
+         timeout(time: 2, unit: 'MINUTES') {
+           script {
+             waitForQualityGate abortPipeline: true
+           }
+         }
+       }
+     }
+
     
     //--------------------------
     stage('Docker Build and Push') {
