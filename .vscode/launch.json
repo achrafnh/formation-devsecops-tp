@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-NumericApplication<numeric>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.devsecops.NumericApplication",
+      "projectName": "numeric",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
