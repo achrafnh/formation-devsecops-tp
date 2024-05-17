@@ -52,7 +52,7 @@ pipeline {
        }
      }
     //--------------------------
-token-trivy-achraf
+
 
   stage('Vulnerability Scan - Docker Trivy') {
        steps {
