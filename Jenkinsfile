@@ -106,7 +106,7 @@ stage('Vulnerability Scan owasp - dependency-check') {
 
         )
       }
-
+	      }
 	  
     //--------------------------
     stage('Deployment Kubernetes  ') {
@@ -120,5 +120,5 @@ stage('Vulnerability Scan owasp - dependency-check') {
 
     }
   }
-}
+
 
