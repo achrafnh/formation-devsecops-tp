@@ -1,3 +1,4 @@
+[14:26] NHAILA  Achraf
 apiVersion: apps/v1
 kind: Deployment
 metadata:
