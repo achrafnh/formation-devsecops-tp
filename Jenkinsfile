@@ -69,6 +69,11 @@ stage('Vulnerability Scan - Docker Trivy') {
      		sh "mvn dependency-check:check"
 	    }
 		}
+post { 
+         always { 
+        dependencyCheckPublisher pattern: 'dependency-check-report.xml'         
+	 }
+       }
 }
 
     
