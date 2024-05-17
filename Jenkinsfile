@@ -46,14 +46,21 @@ pipeline {
   -Dsonar.host.url=http://devsecopsm2i.eastus.cloudapp.azure.com:9999 \
   -Dsonar.login=8d7823763ffa253494c99930a0b9988581cf8d53"
          }
-         timeout(time: 10, unit: 'MINUTES') {
-           script {
-             waitForQualityGate abortPipeline: true
-           }
-         }
+
+       }
+     }
+  stages {
+stage('Vulnerability Scan - Docker Trivy') {
+       steps {
+//--------------------------replace variable  token_github on file trivy-image-scan.sh
+         withCredentials([string(credentialsId: 'trivy_github_token', variable: 'TOKEN')]) {
+  sh "sed -i 's#token_github#${TOKEN}#g' trivy-image-scan.sh"      
+  sh "sudo bash trivy-image-scan.sh"
+        }
        }
      }
 
+}
     
     //--------------------------
     stage('Docker Build and Push') {
