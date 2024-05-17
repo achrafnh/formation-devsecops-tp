@@ -49,7 +49,9 @@ pipeline {
 
        }
      }
-  stages {
+
+    //------------------------
+    
 stage('Vulnerability Scan - Docker Trivy') {
        steps {
 //--------------------------replace variable  token_github on file trivy-image-scan.sh
@@ -60,7 +62,7 @@ stage('Vulnerability Scan - Docker Trivy') {
        }
      }
 
-}
+
     
     //--------------------------
     stage('Docker Build and Push') {
