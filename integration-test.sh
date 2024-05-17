@@ -14,7 +14,8 @@ then
 
     response=$(curl -s $applicationURL:$PORT$applicationURI)
     http_code=$(curl -s -o /dev/null -w "%{http_code}" $applicationURL:$PORT$applicationURI)
-
+echo $response
+echo $http_code
     if [[ "$response" == 100 ]];
         then
             echo "Increment Test Passed"
