@@ -43,8 +43,7 @@ pipeline {
          withSonarQubeEnv('MySonar') {
            sh "mvn sonar:sonar \
   -Dsonar.projectKey=App_Java \
-  -Dsonar.host.url=http://devsecopsm2i.eastus.cloudapp.azure.com:9999 \
-  -Dsonar.login=8d7823763ffa253494c99930a0b9988581cf8d53"
+  -Dsonar.host.url=http://devsecopsm2i.eastus.cloudapp.azure.com:9999"
          }
 
        }
