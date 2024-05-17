@@ -63,6 +63,19 @@ pipeline {
         }
        }
   }
+
+
+    //--------------------------
+
+stage('Vulnerability Scan owasp - dependency-check') {
+   steps {
+	    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+     		sh "mvn dependency-check:check"
+	    }
+		}
+	
+}
+
     
     //--------------------------
     stage('Docker Build and Push') {
