@@ -73,6 +73,12 @@ stage('Vulnerability Scan owasp - dependency-check') {
      		sh "mvn dependency-check:check"
 	    }
 		}
+
+	       post { 
+         always { 
+          dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+         }
+       }
 	
 }
 
