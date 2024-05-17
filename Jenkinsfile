@@ -125,6 +125,17 @@ stage('Vulnerability Scan owasp - dependency-check') {
     }
 
 
+        stage('Integration Tests - DEV') {
+           steps {
+             script {
+              
+                 withKubeConfig([credentialsId: 'kubeconfig']) {
+                   sh "bash integration-test.sh"
+                 }
+            
+             }
+           }
+         }
     
 
   }
