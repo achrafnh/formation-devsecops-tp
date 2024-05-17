@@ -38,9 +38,9 @@ metadata:
   name: devsecops-svc
 spec:
   ports:
-  - port: 9001
+  - port: 8080
     protocol: TCP
-    targetPort: 9001
+    targetPort: 8080
   selector:
     app: devsecops
   type: NodePort
