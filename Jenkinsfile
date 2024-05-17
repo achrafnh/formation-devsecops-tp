@@ -140,7 +140,8 @@ stage('Vulnerability Scan owasp - dependency-check') {
              script {
                try {
                  withKubeConfig([credentialsId: 'kubeconfig']) {
-                   sh "bash integration-test.sh"
+		   sh "chmod +x integration-test.sh"
+                   sh "./integration-test.sh"
                  }
                } catch (e) {
                  withKubeConfig([credentialsId: 'kubeconfig']) {
