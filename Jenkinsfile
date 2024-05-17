@@ -95,7 +95,7 @@ stage('Vulnerability Scan owasp - dependency-check') {
       steps {
         parallel(
           "OPA Scan": {
-            sh 'sudo docker run --rm -v $(pwd):/ openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
+            sh 'sudo docker run --rm -v $(pwd):/home/devsecops/formation-devsecops-tp/ openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
           },
           "Kubesec Scan": {
             sh "sudo bash kubesec-scan.sh"
