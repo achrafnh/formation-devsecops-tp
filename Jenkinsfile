@@ -48,110 +48,28 @@ pipeline {
        }
     }
 //--------------------------
- 
-     stage('SonarQube - SAST') {
-       steps {
-         withSonarQubeEnv('mysonar') {
-           sh "mvn sonar:sonar \
-  -Dsonar.projectKey=myapp \
-  -Dsonar.host.url=http://newdevsecops1.eastus.cloudapp.azure.com:9999 \
-  -Dsonar.login=834557ed8ff507e9a1e56e392793b95a63d03a23"
-         }
 
-       }
-     }
     //--------------------------
 
 
-  stage('Vulnerability Scan - Docker Trivy') {
-       steps {
 
-         withCredentials([string(credentialsId: 'token-trivy-achraf', variable: 'TOKEN')]) {
-            sh "sed -i 's#token_github#${TOKEN}#g' trivy-image-scan.sh"      
-            sh "sudo bash trivy-image-scan.sh"
-        }
-       }
-  }
 
 
     //--------------------------
 
-stage('Vulnerability Scan owasp - dependency-check') {
-   steps {
-	    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-     		sh "mvn dependency-check:check"
-	    }
-		}
 
-	       post { 
-         always { 
-          dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-         }
-       }
-	
-}
 
     
     //--------------------------
-    stage('Docker Build and Push') {
-      steps {
-          withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD_ACHRAF', variable: 'DOCKER_HUB_PASSWORD')]) {
-          sh 'sudo docker login -u hrefnhaila -p $DOCKER_HUB_PASSWORD'
-          sh 'printenv'
-          sh 'sudo docker build -t hrefnhaila/devops-app:""$GIT_COMMIT"" .'
-          sh 'sudo docker push hrefnhaila/devops-app:""$GIT_COMMIT""'
-          }
-      }
-    }
+
        //-------------------------- 
-  stage('Vulnerability Scan - Kubernetes') {
-      steps {
-        parallel(
-          "OPA Scan": {
-            sh 'sudo docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
-          },
-          "Kubesec Scan": {
-            sh "sudo bash kubesec-scan.sh"
-          },
-          "Trivy Scan": {
-            sh "sudo bash trivy-k8s-scan.sh"
-          }
-
-        )
-      }
-    }
 
 
     //--------------------------
-        stage('Deployment Kubernetes  ') {
-      steps {
-        withKubeConfig([credentialsId: 'kubeconfig']) {
-               sh "sed -i 's#replace#hrefnhaila/devops-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
-               sh "kubectl apply -f k8s_deployment_service.yaml"
-             }
-      }
-
-    }
 
     //--------------------------
 
-        stage('Integration Tests - DEV') {
-           steps {
-             script {
-               try {
-                 withKubeConfig([credentialsId: 'kubeconfig']) {
-		   sh "chmod +x integration-test.sh"
-                   sh "./integration-test.sh"
-                 }
-               } catch (e) {
-                 withKubeConfig([credentialsId: 'kubeconfig']) {
-                   sh "kubectl -n default rollout undo deploy ${deploymentName}"
-                 }
-                 throw e
-               }
-             }
-           }
-         }
+
     
 
   }
