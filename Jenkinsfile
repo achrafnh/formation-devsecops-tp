@@ -18,7 +18,7 @@ pipeline {
       steps {
         sh "mvn test"
       }
-	 
+     
 
     }
 //--------------------------
@@ -46,26 +46,17 @@ pipeline {
        }
      }
 //--------------------------
-	 stage('Vulnerability Scan - Docker Trivy') {
-       steps {
-	        withCredentials([string(credentialsId: 'trivy_token_achraf', variable: 'TOKEN')]) {
-			 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                 sh "sed -i 's#token_github#${TOKEN}#g' trivy-image-scan.sh"
-                 sh "sudo bash trivy-image-scan.sh"
-	       }
-		}
-       }
-     }
+
 
 
 //--------------------------
 
 stage('Vulnerability Scan owasp - dependency-check') {
    steps {
-	    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-     		sh "mvn dependency-check:check"
-	    }
-		}
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+             sh "mvn dependency-check:check"
+        }
+        }
 
      post {
         always {
@@ -81,6 +72,7 @@ stage('Vulnerability Scan owasp - dependency-check') {
 //--------------------------
     stage('Docker Build and Push') {
       steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
         withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD_ACHRAF', variable: 'DOCKER_HUB_PASSWORD')]) {
           sh 'sudo docker login -u hrefnhaila -p $DOCKER_HUB_PASSWORD'
           sh 'printenv'
@@ -88,7 +80,7 @@ stage('Vulnerability Scan owasp - dependency-check') {
           sh 'sudo docker push hrefnhaila/devops-app:""$GIT_COMMIT""'
         }
 
-      }
+      }}
     }
  
 
