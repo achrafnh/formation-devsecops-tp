@@ -24,7 +24,9 @@ pipeline {
 //--------------------------
     stage('Mutation Tests - PIT') {
       steps {
+         withCredentials([string(credentialsId: 'trivy_token_achraf', variable: 'TOKEN')]) {
         sh "mvn org.pitest:pitest-maven:mutationCoverage"
+         }
       }
 
     }
