@@ -2,12 +2,7 @@ pipeline {
   agent any
 
   stages {
-      stage('Build Artifact') {
-            steps {
-              sh "mvn clean package -DskipTests=true"
-              archive 'target/*.jar' //so that they can be downloaded later
-            }
-        }   
+     
 //--------------------------
   stages {
     stage('Build Artifact') {
@@ -23,7 +18,12 @@ pipeline {
       steps {
         sh "mvn test"
       }
-
+	      post {
+		        always {
+                    junit 'target/surefire-reports/*.xml'
+                    jacoco execPattern: 'target/jacoco.exec'
+			}
+		}
 
     }
 //--------------------------
@@ -60,21 +60,6 @@ pipeline {
        }
      }
 
-//--------------------------
-
-//     stage('old working - SonarQube - SAST') {
-
-//     steps {
-//	   catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-//   withSonarQubeEnv('SonarQube') {
-//  sh "mvn sonar:sonar \
-// -Dsonar.projectKey=project-achraf \
-// -Dsonar.host.url=http://mytpm.eastus.cloudapp.azure.com:9999 \
-// -Dsonar.login=220bc162accb9564166b764d5343595dc0c3f5d8"
-//   }
-//	   }
-//  }
-//}
 
 //--------------------------
 
