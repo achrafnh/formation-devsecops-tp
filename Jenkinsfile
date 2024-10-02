@@ -79,7 +79,33 @@ pipeline {
           }
       }}
       }
+    //--------------------------
+    stage('Vulnerability Scan - Docker Trivy') {
+      steps {
+            withCredentials([string(credentialsId: 'trivy_token', variable: 'TOKEN')]) {
+          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            sh "sed -i 's#token_github#${TOKEN}#g' trivy-image-scan.sh"
+            sh 'sudo bash trivy-image-scan.sh'
+          }
+            }
+      }
+    }
 
+      stage('Vulnerability Scan - Kubernetes') {
+      steps {
+        parallel(
+               'OPA Scan': {
+                 sh 'sudo docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
+               },
+               'Kubesec Scan': {
+                 sh 'sudo bash kubesec-scan.sh'
+               },
+               'Trivy Scan': {
+                 sh 'sudo bash trivy-k8s-scan.sh'
+               }
+             )
+      }
+      }
     //--------------------------
     stage('Deployment Kubernetes  ') {
       steps {
@@ -89,6 +115,6 @@ pipeline {
         }
       }
     }
-
+    //--------------------------
     }//-------fin stages-------------------
   } //----------fin pipeline----------------
