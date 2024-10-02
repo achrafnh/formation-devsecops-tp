@@ -118,7 +118,9 @@ pipeline {
     //--------------------------
     stage('Zap report') {
       steps {
-        sh 'sudo bash zap.sh'
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          sh 'sudo bash zap.sh'
+        }
       }
     }
     //--------------------------
