@@ -5,7 +5,12 @@ PORT=30180
 # first run this
 chmod 777 $(pwd)
 echo $(id -u):$(id -g)
- docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t http://mytpm.eastus.cloudapp.azure.com:30802/v3/api-docs -f openapi -r zap_report.html
+ #docker run -v /home/devsecops/formation-devsecops-tp:/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t http://mytpm.eastus.cloudapp.azure.com:30802/v3/api-docs -f openapi -r zap_report.html
+
+ docker run --rm --memory=8gb -v /home/devsecops/formation-devsecops-tp:/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -I -j -m 10 -T 60 \
+  -t http://mytpm.eastus.cloudapp.azure.com:30802/v3/api-docs \
+  -r zap_report.html
+
 
 
 # comment above cmd and uncomment below lines to run with CUSTOM RULES
