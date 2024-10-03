@@ -9,7 +9,7 @@ def call(String buildStatus = 'STARTED') {
         colorCode = '#FFFF00'
     }
 
-    // Slack message
+    // Slack message ...
     def message = "*${buildStatus}:* Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
 
     slackSend(color: colorCode, message: message, channel: "#${env.SLACK_CHANNEL}")
