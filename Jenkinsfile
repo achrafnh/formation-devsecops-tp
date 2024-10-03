@@ -47,6 +47,15 @@ pipeline {
       }
     }
 
+    //-----
+    stage('Test Slack Notification') {
+      steps {
+        script {
+          // Sending a simple message to Slack
+          slackSend(channel: "#${SLACK_CHANNEL}", message: 'Test Message from Jenkins', color: '#36A64F')
+        }
+      }
+    }
 //     //--------------------------
 //     stage('UNIT test & jacoco ') {
 //       steps {
@@ -127,38 +136,38 @@ pipeline {
 //       }
 //     }
 
-//       stage('Vulnerability Scan - Kubernetes') {
-//       steps {
-//         parallel(
-//                'OPA Scan': {
-//                  sh 'sudo docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
-//                },
-//                'Kubesec Scan': {
-//                  sh 'sudo bash kubesec-scan.sh'
-//                },
-//                'Trivy Scan': {
-//                  sh 'sudo bash trivy-k8s-scan.sh'
-//                }
-//              )
-//       }
-//       }
-//     //--------------------------
-//     stage('Deployment Kubernetes  ') {
-//       steps {
-//         withKubeConfig([credentialsId: 'kubeconfigachraf']) {
-//               sh "sed -i 's#replace#hrefnhaila/devops-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
-//               sh 'kubectl apply -f k8s_deployment_service.yaml'
-//         }
-//       }
-//     }
-//     //--------------------------
-//     stage('Zap report') {
-//       steps {
-//         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-//           sh 'sudo bash zap.sh'
-//         }
-//       }
-//     }
+    //       stage('Vulnerability Scan - Kubernetes') {
+    //       steps {
+    //         parallel(
+    //                'OPA Scan': {
+    //                  sh 'sudo docker run --rm -v $(pwd):/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml'
+    //                },
+    //                'Kubesec Scan': {
+    //                  sh 'sudo bash kubesec-scan.sh'
+    //                },
+    //                'Trivy Scan': {
+    //                  sh 'sudo bash trivy-k8s-scan.sh'
+    //                }
+    //              )
+    //       }
+    //       }
+    //     //--------------------------
+    //     stage('Deployment Kubernetes  ') {
+    //       steps {
+    //         withKubeConfig([credentialsId: 'kubeconfigachraf']) {
+    //               sh "sed -i 's#replace#hrefnhaila/devops-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
+    //               sh 'kubectl apply -f k8s_deployment_service.yaml'
+    //         }
+    //       }
+    //     }
+    //     //--------------------------
+    //     stage('Zap report') {
+    //       steps {
+    //         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+    //           sh 'sudo bash zap.sh'
+    //         }
+    //       }
+    //     }
     //--------------------------
     }//-------fin stages-------------------
     post {
