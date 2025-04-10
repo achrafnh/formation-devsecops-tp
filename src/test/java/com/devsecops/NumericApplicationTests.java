@@ -43,9 +43,9 @@ public class NumericApplicationTests {
     @Test
     public void greaterThanFiftyMessage() throws Exception {
         this.mockMvc.perform(get("/compare/51")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string("Greater than 50"));
+                .andExpect(content().string("test"));
     }
-    
+
     @Test
     public void welcomeMessage() throws Exception {
          this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk());
