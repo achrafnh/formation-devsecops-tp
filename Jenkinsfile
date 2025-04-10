@@ -44,8 +44,9 @@ pipeline {
         ///////////////////////
 
           stage('Vulnerability Scan - Docker') {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             steps {
-              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+              
                 sh "mvn dependency-check:check" 
               }
             }
