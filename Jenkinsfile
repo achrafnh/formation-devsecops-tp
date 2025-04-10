@@ -17,12 +17,12 @@ pipeline {
                       }
                     
                     }
-                       post{
-                          always{
-                            junit 'target/surefire-reports/*.xml'
-                          
-                          }
-                        }
+                post{
+                  always{
+                    junit 'target/surefire-reports/*.xml'
+                  
+                  }
+                }
                 }
 
 
@@ -31,6 +31,12 @@ pipeline {
               steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 sh "mvn org.pitest:pitest-maven:mutationCoverage"
+                }
+              }
+              post{
+                always{
+                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+              
                 }
               }
         
