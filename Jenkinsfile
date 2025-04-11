@@ -54,7 +54,7 @@ pipeline {
   -Dsonar.projectKey=devsecopsjenkins \
   -Dsonar.projectName='devsecopsjenkins' \
   -Dsonar.host.url=http://devopstssr.eastus.cloudapp.azure.com:9998 \
-  -Dsonar.token=$sonarqubetoken"
+  -Dsonar.token=sqa_153810ae0e910e1943fe0ea9fa4478d9f643d936"
 
 
                 }
