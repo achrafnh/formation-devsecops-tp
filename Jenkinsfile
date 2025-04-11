@@ -11,7 +11,37 @@ pipeline {
                     }
                 }
         //---------------------------------------------------
-            
+              stage('test unitaire ') {
+                    steps {
+                      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                      sh "sudo mvn test"
+                      }
+                    
+                    }
+                post{
+                  always{
+                    junit 'target/surefire-reports/*.xml'
+                  
+                  }
+                }
+                }
+
+
+        //--------------------------
+            stage('Mutation Tests - PIT') {
+              steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                sh "sudo mvn org.pitest:pitest-maven:mutationCoverage"
+                }
+              }
+              post{
+                always{
+                pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+              
+                }
+              }
+        
+            }
 
    //--------------------------
             stage('scan sonarqube') {
