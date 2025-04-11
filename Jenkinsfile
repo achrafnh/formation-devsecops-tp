@@ -2,6 +2,7 @@ pipeline {
   agent any
  
   stages {
+    
         //---------------------------------------------------
               stage('Build Artifact') {
                     steps {
@@ -26,7 +27,7 @@ pipeline {
                 }
 
 
-                //--------------------------
+        //--------------------------
             stage('Mutation Tests - PIT') {
               steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -41,23 +42,21 @@ pipeline {
               }
         
             }
-        ///////////////////////
+        //--------------------------
 
         stage('Vulnerability Scan - Docker') {
-  steps {
-    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-      sh "mvn dependency-check:check"
-    }
-  }
-  post {
-    always {
-      dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-      jacoco(execPattern: 'target/jacoco.exec')
-    }
-  }
-}
-
-        
+          steps {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+              sh "mvn dependency-check:check"
+            }
+          }
+          post {
+            always {
+              dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+              jacoco(execPattern: 'target/jacoco.exec')
+            }
+          }
+        }
         //--------------------------
             stage('Docker Build and Push') {
               steps {
