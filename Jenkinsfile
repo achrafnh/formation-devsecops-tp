@@ -2,7 +2,7 @@ pipeline {
   agent any
  
   stages {
-    
+
         //---------------------------------------------------
               stage('Build Artifact') {
                     steps {
@@ -42,6 +42,24 @@ pipeline {
               }
         
             }
+
+   //--------------------------
+            stage('scan sonarqube') {
+              steps {
+
+            withCredentials([string(credentialsId: 'sonarqubetoken', variable: 'sonarqubetoken')]) {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                sh " mvn sonar:sonar \
+  -Dsonar.projectKey=devsecopsachraf \
+  -Dsonar.host.url=http://devopstssr.eastus.cloudapp.azure.com:9999 \
+  -Dsonar.login=$sonarqubetoken"
+                }
+              }
+            }
+            
+        
+            }
+
         //--------------------------
 
         stage('Vulnerability Scan - Docker') {
