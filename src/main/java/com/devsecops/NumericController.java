@@ -29,6 +29,7 @@ public class NumericController {
 		public String welcome() {
 			return "Kubernetes DevSecOps ZZ test2";
 		}
+
 		@GetMapping("/compare/{value}")
 		public String compareToFifty(@PathVariable int value) {
 			String message = "Could not determine comparison";
