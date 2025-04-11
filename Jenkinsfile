@@ -49,10 +49,14 @@ pipeline {
 
             withCredentials([string(credentialsId: 'sonarqubetoken', variable: 'sonarqubetoken')]) {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                sh " mvn sonar:sonar \
-  -Dsonar.projectKey=devsecopsachraf \
-  -Dsonar.host.url=http://devopstssr.eastus.cloudapp.azure.com:9999 \
-  -Dsonar.login=$sonarqubetoken"
+
+  sh "mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=devsecopsjenkins \
+  -Dsonar.projectName='devsecopsjenkins' \
+  -Dsonar.host.url=http://devopstssr.eastus.cloudapp.azure.com:9998 \
+  -Dsonar.token=$sonarqubetoken"
+
+  
                 }
               }
             }
