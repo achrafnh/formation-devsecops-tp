@@ -31,8 +31,8 @@ public class NumericController {
 		}
 @GetMapping("/")
 		public String welcome() {
-			return "Kubernetes DevSecOps ZZ test2";
-		}
+			return "dazdazad DevSecOps ZZ test2";
+		}daaaz
 		@GetMapping("/")
 		public String welcome() {
 			return "Kubernetes DevSecOps ZZ test2";
